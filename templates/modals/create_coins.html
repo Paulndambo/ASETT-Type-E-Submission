@@ -1,0 +1,46 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Coins</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <form action="/cryptoapp/record-coins/" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                <div class="mb-3">
+                  <label for="" class="form-label">User</label>
+                  <input type="text" class="form-control" value="{{request.user.username}}" name="user" id="user" readonly />
+                </div>
+                <div class="mb-3">
+                  <label>Currency</label>
+                  <select class="form-select" aria-label="Default select example" name="currency" id="currency">
+                      <option selected>select</option>
+                      {% for currency in currencies %}
+                      <option value={{currency}}>{{currency}}</option>
+                      {% endfor %}
+                    </select>
+                </div>
+          
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Amount</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="amount"
+                    name="amount"
+                  />
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Add Coins</button>
+                </div>
+              </div>
+              </form>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>

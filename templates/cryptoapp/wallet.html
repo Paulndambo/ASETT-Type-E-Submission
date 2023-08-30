@@ -2,6 +2,59 @@
 
 {% block content %}
 <div class="row">
+    <table class="table">
+        <thead>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Wallet Address</td>
+            <td></td>
+            <td>{{wallet.wallet_id}}</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Phone Number</td>
+            <td></td>
+            <td>{{wallet.phone_number}}</td>
+          </tr>
+          
+        </tbody>
+      </table>
+</div>
+<div class="row">
     
+    
+    <div class="col">
+        <div class="row">
+            <div class="col">
+                <h5>My Portfolio</h5>
+            </div>
+            <div class="col">
+                
+                <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Record Coins</a>
+            </div>
+        </div>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Currency</th>
+            <th scope="col">Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in portfolios %}
+          <tr>
+            <th scope="row">{{p.id}}</th>
+            <td>{{p.currency.name}}</td>
+            <td>{{p.amount}}</td>
+            
+          </tr>
+          {% endfor %}
+          
+        </tbody>
+      </table>
+    </div>
 </div>
 {% endblock content %}

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: asett_type_e_assessment
+  
+spec:
+  selector:
+    app: asett_type_e_assessment
+  ports:
+  - port: 8000
+    targetPort: 8000
+  type: LoadBalancer

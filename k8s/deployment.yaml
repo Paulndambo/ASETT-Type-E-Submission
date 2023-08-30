@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asett_type_e_assessment
+spec:
+  selector:
+    matchLabels:
+      app: asett_type_e_assessment
+  template:
+    metadata:
+      labels:
+        app: asett_type_e_assessment
+    spec:
+      containers:
+      - name: asett_type_e_assessment
+        image: 40781998/asett_type_e_assessment:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8000
