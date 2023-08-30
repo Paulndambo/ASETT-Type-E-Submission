@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <h4 class="text-center">Coins Data Last 24hours</h4>
+</div>
+<div class="row">
+    <div class="col-md-12 coins">
+        <table class="table"  id="productTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Coin Name</th>
+                <th>Current Price</th>
+                <th>Price % Change Last 24 hours</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Coins Data will be inserted here -->
+            </tbody>
+          </table>
+    </div>
+</div>
+
+
+<script>
+    const coinGeckoURL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false&locale=en"
+
+    async function fetchData() {
+        try {
+            const response = await fetch(coinGeckoURL);
+
+            if (!response.ok) {
+            throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            populateTable(data);
+            console.log(data);
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+        }
+        }
+
+    function populateTable(data) {
+      const tableBody = document.querySelector('#productTable tbody');
+
+      data.forEach(product => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${product.id}</td>
+          <td>${product.name}</td>
+          <td>${product.current_price}</td>
+          <td>${product.current_price}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+
+    fetchData();
+</script>
+
+{% endblock content %}

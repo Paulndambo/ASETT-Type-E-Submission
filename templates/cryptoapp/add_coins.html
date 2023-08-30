@@ -1,0 +1,41 @@
+{% extends "base.html" %} {% block content %}
+<div class="row mt-3">
+  <div class="col-3"></div>
+  <div class="col-6">
+    <h4 class="text-center">Add Coins To Wallet</h4>
+    <hr/>
+    <form method="POST">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="" class="form-label">User</label>
+        <input type="text" class="form-control" value="{{request.user.username}}" name="user" id="user" readonly />
+      </div>
+      <div class="mb-3">
+        <label>Currency</label>
+        <select class="form-select" aria-label="Default select example" name="currency" id="currency">
+            <option selected>select</option>
+            {% for currency in currencies %}
+            <option value={{currency}}>{{currency}}</option>
+            {% endfor %}
+          </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Amount</label>
+        <input
+          type="number"
+          class="form-control"
+          id="amount"
+          name="amount"
+        />
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary">Add Coins</button>
+      </div>
+      
+    </form>
+  </div>
+  <div class="col-3"></div>
+</div>
+
+{% endblock content %}
