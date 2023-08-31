@@ -13,7 +13,20 @@
         
         {% endblock content %}
         {% include "modals/create_coins.html" %}
+        {% include "modals/transfer_coins.html" %}
     </div>
+    <div class="fixed-bottom container mt-5 mb-3">
+      <footer class="footer">
+        <div class="container text-center">
+          <span class="text-muted">&copy; <span id="currentYear"></span> Crypto App. All rights reserved.</span>
+        </div>
+      </footer>
+    </div>
+    <script>
+      // Get the current year using JavaScript
+      const currentYear = new Date().getFullYear();
+      document.getElementById("currentYear").textContent = currentYear;
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
   </body>
 </html>

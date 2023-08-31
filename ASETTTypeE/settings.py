@@ -118,3 +118,12 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = 'f1460349aeadff'
+EMAIL_HOST_PASSWORD = '42ee901822b317'
+EMAIL_PORT = '2525'
+EMAIL_HOST_PORT = '2525'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL=False
+DEFAULT_FROM_EMAIL = "cryptoappdjango@gmail.com"

@@ -27,8 +27,17 @@ class Wallet(AbstractBaseModel):
 
 class Portfolio(AbstractBaseModel):
     wallet = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name="portfolios")
-    currency = models.ForeignKey(CryptoCurrency, on_delete=models.PROTECT)
+    currency = models.ForeignKey(CryptoCurrency, on_delete=models.CASCADE, related_name="coins")
     amount = models.DecimalField(max_digits=10, decimal_places=2)
+    coin_total_value = models.DecimalField(max_digits=50,decimal_places=2, default=0)
 
     def __str__(self):
         return f"{self.wallet.user.username} added {self.currency.name} to wallet"
+
+
+class Transaction(AbstractBaseModel):
+    send_from = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name="coinssend")
+    send_to = models.ForeignKey(Wallet, on_delete=models.CASCADE, related_name="coinsreceived")
+    currency = models.ForeignKey(CryptoCurrency, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=20, decimal_places=2, default=0)
+    status = models.CharField(max_length=255, null=True)

@@ -7,31 +7,35 @@
         </thead>
         <tbody>
           <tr>
-            <th scope="row">1</th>
+            <td></td>
             <td>Wallet Address</td>
             <td></td>
             <td>{{wallet.wallet_id}}</td>
           </tr>
           <tr>
-            <th scope="row">2</th>
+        
+            <td></td>
             <td>Phone Number</td>
             <td></td>
             <td>{{wallet.phone_number}}</td>
           </tr>
-          
+          <tr>
+            
+            <td></td>
+            <td>Total Balance</td>
+            <td></td>
+            <td>${{total_balance}}</td>
+          </tr>
         </tbody>
       </table>
 </div>
-<div class="row">
-    
-    
+<div class="row mt-4">
     <div class="col">
         <div class="row">
             <div class="col">
                 <h5>My Portfolio</h5>
             </div>
             <div class="col">
-                
                 <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Record Coins</a>
             </div>
         </div>
@@ -40,7 +44,9 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Currency</th>
+            <th scope="col">Current Price</th>
             <th scope="col">Balance</th>
+            <th scope="col">Total Value</th>
           </tr>
         </thead>
         <tbody>
@@ -48,8 +54,55 @@
           <tr>
             <th scope="row">{{p.id}}</th>
             <td>{{p.currency.name}}</td>
+            <td>${{p.currency.current_price}}</td>
             <td>{{p.amount}}</td>
+            <td>${{p.coin_total_value}}</td>
             
+          </tr>
+          {% endfor %}
+          
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div class="col">
+            <h5>My Transactions</h5>
+        </div>
+        <div class="col">
+            <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#transferCoins">Transfer Coins</a>
+        </div>
+    </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Sender</th>
+            <th scope="col">Recepient</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for transaction in transactions %}
+          <tr>
+            <th scope="row">{{transaction.id}}</th>
+            <td>{{transaction.send_from}}</td>
+            <td>{{transaction.send_to}}</td>
+            <td>{{transaction.amount}}</td>
+            
+            <td>
+              {% if transaction.status == "successful" %}
+              <span class="badge text-bg-success">{{transaction.status}}</span>
+           
+            {% else %}
+            <span class="badge text-bg-danger">
+              {{transaction.status}}
+            </span>
+            
+            {% endif %}
+            </td>
+          
           </tr>
           {% endfor %}
           
