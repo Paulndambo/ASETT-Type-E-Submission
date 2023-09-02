@@ -15,7 +15,7 @@
         <select class="form-select" aria-label="Default select example" name="currency" id="currency">
             <option selected>select</option>
             {% for currency in currencies %}
-            <option value={{currency}}>{{currency}}</option>
+            <option value={{currency.id}}>{{currency}}</option>
             {% endfor %}
           </select>
       </div>

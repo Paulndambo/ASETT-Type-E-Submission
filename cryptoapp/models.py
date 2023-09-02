@@ -1,9 +1,14 @@
 from django.db import models
-
+import os
 from django.contrib.auth.models import User
 from core.models import AbstractBaseModel
 
 import uuid
+
+current_environment = os.environ.get("CURRENT_ENVIRONMENT")
+BASE_URL = "http://127.0.0.1:8000"
+if current_environment == "PRODUCTION":
+    pass
 
 # Create your models here.
 class CryptoCurrency(AbstractBaseModel):
@@ -20,9 +25,14 @@ class Wallet(AbstractBaseModel):
     wallet_id = models.UUIDField(default=uuid.uuid4())
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone_number = models.CharField(max_length=255, null=True)
+    referral_code = models.CharField(max_length=255, null=True)
+    invited_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="invitedusers")
 
     def __str__(self):
         return self.user.username
+
+    def referral_link(self):
+        return f"{BASE_URL}/users/register/{self.referral_code}"
 
 
 class Portfolio(AbstractBaseModel):

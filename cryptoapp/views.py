@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from django.db.models import Q
 from decimal import Decimal
@@ -12,9 +13,12 @@ from cryptoapp.models import Portfolio, CryptoCurrency, Wallet, Transaction
 def wallet(request):
     user = request.user
     currencies = CryptoCurrency.objects.all()
+
     wallet = Wallet.objects.filter(user=user).first()
 
     transactions = Transaction.objects.filter(Q(send_from__user=user) | Q(send_to__user=user))
+
+    invited_users = Wallet.objects.filter(invited_by=user)
 
     if not wallet:
         return redirect("new-wallet")
@@ -26,7 +30,6 @@ def wallet(request):
 
     total_balance = sum(list(portfolios.values_list("coin_total_value", flat=True)))
 
-
     context = {
         "wallet": wallet,
         "user": user,
@@ -34,7 +37,8 @@ def wallet(request):
         "portfolios": portfolios,
         "total_balance": total_balance,
         "customer_coins": currencies_in_customer_wallet,
-        "transactions": transactions
+        "transactions": transactions,
+        "invited_users": invited_users
     }
     
     return render(request, "cryptoapp/wallet.html", context)
@@ -114,6 +118,7 @@ def transfer_coins(request):
                 currency=currency,
                 status="successful"
             )
+            messages.success(request, "Transaction was Successfuly")
             return redirect("wallet")
 
     return render(request, "modals/transfer_coins.html")
@@ -125,7 +130,7 @@ def failed_wallet_transaction(request):
 
 
 @login_required(login_url="/users/login/")
-def add_coins_to_wallet(request):
+def record_coins_to_wallet(request):
     if request.method == "POST":
         currency_id = request.POST.get("currency")
         username = request.POST.get("user")
@@ -162,3 +167,43 @@ def add_coins_to_wallet(request):
 
     
     return render(request, "modals/create_coins.html")
+
+
+def add_coins_to_wallet(request):
+    currencies = CryptoCurrency.objects.all()
+    context = {
+        "currencies": currencies
+    }
+    if request.method == "POST":
+        currency_id = int(request.POST.get("currency"))
+        amount = Decimal(request.POST.get("amount"))
+
+        user = request.user
+        
+        wallet = Wallet.objects.filter(user=user).first()
+        currency = CryptoCurrency.objects.filter(id=currency_id).first()
+
+        coins_total_value = currency.current_price * amount
+
+        if wallet:
+            
+            coin_exists = Portfolio.objects.filter(currency=currency, wallet=wallet).first()
+
+            if coin_exists:
+                coin_exists.amount += amount
+                coin_exists.coin_total_value += coins_total_value
+                coin_exists.save()
+                print("Coin Exists in Wallet!")
+            
+            else:
+                Portfolio.objects.create(
+                    wallet=wallet,
+                    currency=currency,
+                    amount=amount,
+                    coin_total_value=coins_total_value
+                )
+                messages.success(request, "Coins added to wallet successfully!!")
+            return redirect("wallet")
+            
+        print(currency_id, amount)
+    return render(request, "cryptoapp/add_coins.html", context)

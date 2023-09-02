@@ -1,0 +1,39 @@
+<div class="modal fade" id="inviteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">Invite User</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+            <form action="/users/invite-user/" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Invite Link</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="referral_link"
+                          name="referral_link"
+                          value="{{wallet.referral_link}}"
+                          readonly
+                        />
+                      </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    required
+                  />
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Invite User</button>
+                </div>
+              </div>
+              </form>
+      </div>
+    </div>
+  </div>

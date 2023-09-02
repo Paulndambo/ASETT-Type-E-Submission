@@ -8,12 +8,32 @@
   </head>
   <body>
     <div class="container">
+      <div class="row">
+        <div class="col">
+          <p class="text-center">
+            {% if messages %}
+            <ul class="messages list-unstyled">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }} alert alert-danger" role="alert" {% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        </div>
+      </div>
+    </div>
+   
+    <div class="container">
+     
       {% include "navbar.html" %}
+     
         {% block content %}
+      
         
         {% endblock content %}
         {% include "modals/create_coins.html" %}
         {% include "modals/transfer_coins.html" %}
+        {% include "modals/invite_user.html" %}
+        {% include "modals/invited_users.html" %}
     </div>
     <div class="fixed-bottom container mt-5 mb-3">
       <footer class="footer">
@@ -25,6 +45,7 @@
     <script>
       // Get the current year using JavaScript
       const currentYear = new Date().getFullYear();
+      console.log(`Current Year: ${currentYear}`)
       document.getElementById("currentYear").textContent = currentYear;
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>

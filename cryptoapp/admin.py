@@ -5,5 +5,8 @@ from .models import CryptoCurrency, Wallet, Portfolio
 class CryptoCurrencyAdmin(admin.ModelAdmin):
     list_display = ["symbol", "name", "current_price"]
 
-admin.site.register(Wallet)
+@admin.register(Wallet)
+class WalletAdmin(admin.ModelAdmin):
+    list_display = ["wallet_id", "phone_number", "referral_code", "invited_by"]
+
 admin.site.register(Portfolio)
